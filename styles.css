@@ -1,0 +1,42 @@
+body {
+    background-color: black;
+}
+
+.container {
+    height: 650px;
+    width: 500px;
+    outline: 2px solid black;
+    margin: auto;
+    margin-top: 100px;
+    background-color: white;
+}
+
+#display {
+    outline: 2px solid black;
+    height: 130px;
+    margin-bottom: 22px;
+}
+
+button {
+    height: 100px;
+    width: 122px;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+#zero {
+    width: 248px;
+}
+
+#multiply, #divide, #add, #subtract, #equals {
+    background-color: orange;
+}
+
+#clear, #negative, #percent {
+    background-color: blue;
+}
+
+#one, #two, #three, #four, #five, #six, #seven, #eight, #nine, #zero, #decimal {
+    background-color: white;
+}
+
