@@ -1,64 +1,136 @@
 
     const display = document.querySelector("#display");
+    const numbers = document.querySelectorAll(".number");
+    const operators = document.querySelectorAll(".operator");
     const clear = document.querySelector("#clear");
-    const percent = document.querySelector("#percent");
+    const equals = document.querySelector("#equals");
     const sign = document.querySelector("#sign");
-    const one = document.querySelector("#one");
+    const percent = document.querySelector("#percent");
+    const decimal = document.querySelector("#decimal");
     let displayValue = "0";
-    let firstNumber;
-    let secondNumber;
-    let operator;
+    let firstNumber = null;
+    let secondNumber = null;
+    let theOperator = null;
+    let result = null;
 
-    if (display.textContent == "0") {
-        one.addEventListener("click", () => {
-            display.textContent = "1";
+    updateDisplay();
+
+    numbers.forEach((number) => {
+        number.addEventListener("click", () => {
+            if (displayValue == "0") {
+                displayValue = number.value;
+                updateDisplay();
+            } else {
+                displayValue += number.value;
+                updateDisplay();
+            }
         });
-    }
-
-    clear.addEventListener("click", () => {
-        clear();
     });
 
-    percent.addEventListener("click", () => {
-        displayPercent(displayValue);
-    })
+    operators.forEach((operator) => {
+        operator.addEventListener("click", () => {
+            if (firstNumber == null) {
+                firstNumber = Number(displayValue);
+            } else if (theOperator != null) {
+                secondNumber = Number(displayValue);
+                operate(firstNumber, secondNumber, theOperator);
+                firstNumber = Number(result);
+            }
+            theOperator = operator.value;
+            displayValue = "0";
+            updateDisplay();
+        });
+    });
+
+    clear.addEventListener("click", () => {
+        clearDisplay();
+    });
+
+    equals.addEventListener("click", () => {
+        if (firstNumber !== null && theOperator !== null) {
+            secondNumber = Number(displayValue);
+            operate(firstNumber, secondNumber, theOperator);
+            displayValue = result;
+            firstNumber = Number(result); // Store result for next calculation
+            secondNumber = null;
+            theOperator = null;
+            updateDisplay();
+        }
+    });
 
     sign.addEventListener("click", () => {
-        displaySign(displayValue);
+        displaySign(Number(displayValue));
+        displayValue = result;
+        updateDisplay();
     })
 
-    function updateDisplay() {
-        if (displayValue.length < 9) {
-            display.textContent = displayValue;
+    percent.addEventListener("click", () => {
+        displayPercent(Number(displayValue));
+        displayValue = result;
+        updateDisplay();
+    })
+
+    function setNumber(num) {
+        if (firstNumber == null) {
+            firstNumber = Number(num);
+        } else if (firstNumber != null && theOperator != null) {
+            secondNumber = Number(num);
         }
     }
 
+    function updateDisplay() {
+        display.textContent = displayValue;
+    }
+
     function add(num1, num2) {
-        return num1 + num2;
+        result = (num1 + num2).toString();
     }
 
     function subtract(num1, num2) {
-        return num1 - num2;
+        result = (num1 - num2).toString();
     }
 
     function multiply(num1, num2) {
-        return num1 * num2;
+        result = (num1 * num2).toString();
     }
 
     function divide(num1, num2) {
-        return num1 / num2;
+        result = (num1 / num2).toString();
     }
 
     function displayPercent(num) {
-        return num / 100;
+        result = (num / 100).toString();
     }
 
     function displaySign(num) {
-        return ((-1) * num);
+        result = ((-1) * num).toString();
     }
 
-    function clear() {
+    function operate(num1, num2, operator) {
+        if (operator == "+") {
+            add(num1, num2);
+        } else if (operator == "-") {
+            subtract(num1, num2);
+        } else if (operator == "*") {
+            multiply(num1, num2);
+        } else if (operator == "/") {
+            if (num2 == 0) {
+                result = "ERROR";
+            } else {
+                divide(num1, num2);
+            }
+        }
+        displayValue = result;
+        updateDisplay();
+    }
+
+    function clearDisplay() {
+        firstNumber = null;
+        secondNumber = null;
+        theOperator = null;
+        result = null;
         displayValue = "0";
+        updateDisplay();
     }
 
     function updateDisplay() {
