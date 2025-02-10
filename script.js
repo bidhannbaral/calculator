@@ -51,7 +51,7 @@
             secondNumber = Number(displayValue);
             operate(firstNumber, secondNumber, theOperator);
             displayValue = result;
-            firstNumber = Number(result); // Store result for next calculation
+            firstNumber = Number(result);
             secondNumber = null;
             theOperator = null;
             updateDisplay();
