@@ -20,7 +20,7 @@
             if (displayValue == "0") {
                 displayValue = number.value;
                 updateDisplay();
-            } else {
+            } else if (displayValue.length < 9) {
                 displayValue += number.value;
                 updateDisplay();
             }
@@ -61,14 +61,24 @@
     sign.addEventListener("click", () => {
         displaySign(Number(displayValue));
         displayValue = result;
+        firstNumber = Number(result);
         updateDisplay();
-    })
+    });
 
     percent.addEventListener("click", () => {
         displayPercent(Number(displayValue));
         displayValue = result;
+        firstNumber = Number(result);
         updateDisplay();
-    })
+    });
+
+    decimal.addEventListener("click", () => {
+       if (displayValue = "0") {
+           displayValue = "0.";
+       } else {
+           displayValue += ".";
+       }
+    });
 
     function setNumber(num) {
         if (firstNumber == null) {
